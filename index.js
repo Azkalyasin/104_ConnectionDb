@@ -40,6 +40,26 @@ app.get("/biodata", (req, res) => {
   });
 });
 
+app.get("/biodata/:id", (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT * FROM biodata WHERE idBiodata = ?', [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        message: err.message
+      });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({
+        message: "Biodata not found"
+      });
+    }
+    res.json({
+      message: "GET biodata success",
+      data: results[0]
+    });
+  });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
