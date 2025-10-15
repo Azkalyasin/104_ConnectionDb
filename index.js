@@ -26,6 +26,20 @@ db.connect((err) => {
   console.log("MySQL Connected Successfully");
 });
 
+app.get("/biodata", (req, res) => {
+  db.query('SELECT * FROM biodata', (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        message: err.message
+      });
+    }
+    res.json({
+      message: "GET all biodata success",
+      data: results
+    });
+  });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
