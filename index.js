@@ -60,6 +60,30 @@ app.get("/biodata/:id", (req, res) => {
   });
 });
 
+app.post("/biodata", (req, res) => {
+  const { Nama, Alamat, Agama } = req.body;
+  db.query(
+    'INSERT INTO biodata (Nama, Alamat, Agama) VALUES (?, ?, ?)',
+    [Nama, Alamat, Agama],
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({
+          message: err.message
+        });
+      }
+      res.status(201).json({
+        message: "CREATE new biodata success",
+        data: {
+          idBiodata: results.insertId,
+          Nama,
+          Alamat,
+          Agama
+        }
+      });
+    }
+  );
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
